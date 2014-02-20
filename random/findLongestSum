@@ -1,0 +1,27 @@
+#include <iostream>
+
+int max(int i, int j)
+{
+    return i >= j ? i : j;
+}
+
+int findLargestSum(int *a, int len)
+{
+    int cur_sum = a[0];
+    int max_sum = a[0];
+
+    for(int i = 0; i < len; i++){
+        cur_sum = max(cur_sum + a[i], a[i]);
+        max_sum = max(cur_sum, max_sum);
+    }
+
+    return max_sum;
+}
+
+int main()
+{
+    int arr[] = {-1,-1,-2,-3,-4,-5};
+    int maxsum = findLargestSum(arr, 6);
+    cout << maxsum << endl;
+    return 0;
+}
