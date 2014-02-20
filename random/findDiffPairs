@@ -1,0 +1,32 @@
+#include <iostream>
+#include <map>
+#include <math.h>
+
+int differencePairs(int *a, int len, int diff)
+{
+    int count = 0;
+    int temp = 0;
+    map<int , int> diff_pair;
+    for(int i = 0; i < len; i++){
+        temp = diff + a[i];
+        if(diff_pair.count(temp) == 1){
+            count += diff_pair[temp];
+        }
+        
+        temp = a[i] - diff;
+        if(diff_pair.count(temp) == 1){
+            count += diff_pair[temp];
+        }
+
+        diff_pair[a[i]]++;
+    }
+
+    return count;
+}
+
+int main()
+{
+    int arr[] = {1,1,5,6,9,16,27};
+    int count = differencePairs(arr, 7, 4);
+    cout << count << endl;
+}
