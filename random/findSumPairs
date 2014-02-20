@@ -1,0 +1,31 @@
+#include <iostream>
+#include <stdlib.h>
+#include <algorithm>
+
+using namespace std;
+
+void findSumPairs(int *a, int len, int k)
+{
+    sort(a, a + len);
+    int start = 0;
+    int end = len - 1;
+    int sum = k;    
+
+    while(start < end){
+        if(sum == a[start] + a[end]){
+            cout << a[start] << ", " << a[end] << endl;
+            start++;
+        } else if (a[start] + a[end] < sum) {
+            start++;
+        } else {
+            end--;
+        }             
+    } 
+
+}
+
+int main()
+{
+    int arr[] = {3, 4, 5, 6, 7};
+    findSumPairs(arr, 5, 10);
+}
