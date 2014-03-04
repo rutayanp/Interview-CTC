@@ -1,0 +1,54 @@
+#include <iostream>
+#include <stdlib.h>
+
+void swap(int &n1, int &n2)
+{
+    int temp;
+    temp = n1;
+    n1 = n2;
+    n2 = temp;
+}
+
+int partition(int *a, int start, int end)
+{
+    int middle = (start + end)/2;
+    int pivot = a[middle];
+    int left = start;
+    int right = end;
+    
+    while(left <= right){
+        while(a[left] < pivot) left++;
+
+        while(a[right] > pivot) right--;
+        if(left <= right){
+            swap(a[left], a[right]); //write swap function
+            left++;
+        }
+    }
+    
+    return left;
+}
+
+int findKthLargest(int *a, int left, int right, int k)
+{
+    if(left == right)
+        return a[left];
+        
+    int pivotindex = partition(a, left, right);
+    if(pivotindex == k){
+        return a[pivotindex];
+    } else if (pivotindex > k){
+        findKthLargest(a, left, pivotindex - 1, k);
+    } else {
+        findKthLargest(a, pivotindex + 1, right, k);
+    }
+
+    return a[pivotindex];
+}
+
+int main()
+{
+    int arr[] = {3,1,2,1,4};
+    int result = findKthLargest(arr, 0, 4, 3);
+    cout << result;
+}
