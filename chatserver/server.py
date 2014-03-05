@@ -24,11 +24,11 @@ class Chat (LineReceiver) :
         if self.name in self.users:
             del self.users[self.name]
 
-
     def lineReceived(self, line):
         if line == "/quit":
             self.sendLine("<= BYE")
-            self.connectionLost(self, "Connection closed by foreign host.")
+            self.transport.loseConnection()
+            return
         if self.state == "GETNAME":
             self.handle_GETNAME(line)
         elif self.state == "SHOW":
@@ -40,12 +40,14 @@ class Chat (LineReceiver) :
     
     def show_ROOM(self, message):
         print "%s -- %s" % (self.name, message)
+ 
         if message == "/rooms" or message == "/room":
             self.sendLine("<= Active Rooms are: ")
             self.sendLine("<= * chat(%d)" % len(self.chat))
             self.sendLine("<= * hottub(%d)" % len(self.hottub))
             self.sendNext("<= End of List ")
             self.state = "ROOM"
+        
         else:
             self.sendNext("<= * Please select a room --> use /rooms")
             self.state = "SHOW"
@@ -125,9 +127,9 @@ class Chat (LineReceiver) :
             print "%s leaving !\n" % self.name
             for name,protocol in allmembers.iteritems():
                 if(name != self.name):
-                    protocol.sendNext("\n<= *user has left" + self.room + ": " + self.colorName(self.name)) 
+                    protocol.sendNext("\n<= *user has left " + self.room + ": " + self.colorName(self.name)) 
                 else:   
-                    protocol.sendNext("<= *user has left" + self.room + ": " + self.colorName(self.name) + "(**this is you)")
+                    protocol.sendNext("<= *user has left " + self.room + ": " + self.colorName(self.name) + "(**this is you)")
             if (self.name in self.chat):
                 del self.chat[self.name]
             if (self.name in self.hottub):
