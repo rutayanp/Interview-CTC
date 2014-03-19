@@ -12,7 +12,7 @@
 #include <math.h>
 #include <iterator>
 
-//#define INT_MAX 2147483648
+#define INT_MAX 2147483648
 
 enum state { visited, unvisited };
 
@@ -374,7 +374,7 @@ void fiboHeap::consolidate(){
 
         traverse = traverse->right;
         assert(d <= D);
-        cout << "" ;
+        //cout << "x: " << x->index << "degree in D : " << d << endl;
 		
         while (A[d] != NULL){
 			y = A[d];
@@ -595,7 +595,7 @@ void readFile(vector<vector<int> >& graphNodes, string filename, int & n, int & 
 }
 
 /*============================================================================
- * Name			: dijkstraSimpleSequence.cpp
+ * Name			: dijkstra fibonacci heap implementation
  * Author		: Rutayan Patro
  * Version		:
  * Copyright		: Please don't use it for assignments
@@ -606,9 +606,9 @@ void stpfibo(graph *g, int n, int x){
 	fiboHeap *dist = new fiboHeap();
 	int dist_u;
 	int u;
-    
+   
 	for(int i = 0; i < n; i++){
-		dist->insert(i, INT_MAX);
+		dist->insert(i, 2000);
 	}
     
 	//dist->display(); //debug
@@ -619,8 +619,8 @@ void stpfibo(graph *g, int n, int x){
 	for(int i = 0; i < n; i++){
 		dist_u = dist->getMinKey();
 		u = dist->getMinIndex();
-		cout << "(" << i << ")(loop)to be removed index : " << dist->getMinIndex() << ", min : " << dist_u << endl;
-		//dist->print(dist->min, dist->min->parent);
+		//cout << "(" << i << ")(loop)to be removed index : " << dist->getMinIndex() << ", min : " << dist_u << endl;
+		dist->print(dist->min, dist->min->parent);
         dist->removeMin();
         //dist->print(dist->min, dist->min->parent); //print the fibheap
         assert(dist->min != NULL);
@@ -653,7 +653,7 @@ void stpfibo(graph *g, int n, int x){
  *============================================================================*/
 int removeMin(int *dist, state *isvisited, int n){
     
-	int min = INT_MAX;
+	int min = 2000;
 	int min_index;
     
 	for(int i = 0; i < n; i++){
@@ -670,10 +670,10 @@ void stpSimpleSequence(graph *g, int n, int x){
     
 	int *dist = new int[n];
 	state *isvisited = new state[n];
-	int u;
+	int u = 0;
     
 	for(int i = 0; i < n; i++){
-		dist[i] = INT_MAX;
+		dist[i] = 2000;
 		isvisited[i] = unvisited;
 	}
     
@@ -722,7 +722,7 @@ int main(int argc, char *argv[]) {
     graph *g = new graph(n, e);
     g->createGraphFile(graphNodes);*/
     
-    for(int x = 0; x < 1; x++){
+    for(int x = 0; x < n; x++){
         stpSimpleSequence(g, n, x);
         cout << "\n======\n" <<endl;
         stpfibo(g, n, x);
